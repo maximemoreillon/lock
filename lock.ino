@@ -24,7 +24,6 @@ Ticker MQTT_reconnect_timer;
 #define MQTT_PORT 1883
 #define MQTT_COMMAND_TOPIC "lock/command"
 #define MQTT_STATUS_TOPIC "lock/status"
-#define MQTT_DEBUG_TOPIC "lock/debug"
 #define MQTT_QOS 1
 #define MQTT_RETAIN true
 
@@ -104,14 +103,5 @@ void loop() {
     MQTT_client.publish(MQTT_STATUS_TOPIC, MQTT_QOS, MQTT_RETAIN, lock_status);
     digitalWrite(UNLOCK_LED_PIN,LOW);
     digitalWrite(LOCK_LED_PIN,HIGH);
-  }
-
-   // Debugging
-  static boolean debugged;
-  if(millis() > 10000 && !debugged){
-    debugged = true;
-    Serial.println("debugging");
-    MQTT_client.publish(MQTT_DEBUG_TOPIC, MQTT_QOS, MQTT_RETAIN, "ON");
-    MQTT_client.publish(MQTT_DEBUG_TOPIC, MQTT_QOS, MQTT_RETAIN, "OFF");
   }
 }
