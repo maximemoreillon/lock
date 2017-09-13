@@ -75,6 +75,18 @@ void MQTT_message_callback(char* topic, char* payload, AsyncMqttClientMessagePro
     Serial.println("Locking...");
     servo_lock_request = true;
   }
+  else if(strncmp(payload, "TOGGLE", len) == 0){
+    Serial.println("Toggling lock state");
+    
+    if(strcmp(lock_status,"UNLOCKED") == 0){
+      Serial.println("Locking...");
+      servo_lock_request = true;
+    }
+    else if (strcmp(lock_status,"LOCKED") == 0){
+      Serial.println("Unlocking...");
+      servo_unlock_request = true;
+    }
+  }
 }
 
 void MQTT_publish_callback(uint16_t packetId) {
