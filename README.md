@@ -16,6 +16,7 @@ Wifi enabled door lock that can be controlled via either MQTT or HTTP requests.
 * MG996R servo
 * 2x Limit switch
 * 2x LED + resistor
+* Screws and standoffs
 
 ### Schematic
 ![alt text](https://moreillon.duckdns.org/projects/iot/images/lock_schematic.png)
