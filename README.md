@@ -19,7 +19,7 @@ Wifi enabled door lock that can be controlled via either MQTT or HTTP requests.
 * Screws and standoffs
 
 ### Schematic
-![alt text](https://moreillon.duckdns.org/projects/iot/images/lock_schematic.png)
+![alt text](http://maximemoreillon.com/images/projects/iot/lock/lock_schematic.png)
 
 ### 3D printed parts
 STL files available on [Thingiverse](https://www.thingiverse.com/thing:2462482)
