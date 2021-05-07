@@ -31,4 +31,3 @@ void wifi_disconnect_callback(const WiFiEventStationModeDisconnected& event){
   MQTT_reconnect_timer.detach(); // ensure we don't reconnect to MQTT while reconnecting to Wi-Fi
   wifi_reconnect_timer.attach(2, wifi_connect);
 }
-
