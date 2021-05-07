@@ -23,3 +23,6 @@ Wifi enabled door lock that can be controlled via either MQTT or HTTP requests.
 
 ### 3D printed parts
 STL files available on [Thingiverse](https://www.thingiverse.com/thing:2462482)
+
+## Notes
+* For applications without limit switches, please see the no_limit_switches branch of this repository.
