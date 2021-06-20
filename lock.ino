@@ -42,6 +42,7 @@ Ticker MQTT_reconnect_timer;
 #define SERVO_PIN D2
 #define UNLOCK_LED_PIN D7
 #define LOCK_LED_PIN D8
+#define BUTTON_PIN D6 // D5 Or D6
 
 #define SERVO_UNLOCK_ANGLE 160
 #define SERVO_NEUTRAL_ANGLE 90
@@ -71,6 +72,7 @@ void setup() {
   pinMode(UNLOCK_LED_PIN,OUTPUT);
   pinMode(LOCK_LED_PIN,OUTPUT);
 
+  button_init();
   servo_setup();
   wifi_setup();
   web_server_setup();
@@ -85,9 +87,11 @@ void loop() {
   
   ArduinoOTA.handle();
   www_server.handleClient();
+  button_read();
 
   // Servo management
   if(servo_unlock_request){
+    Serial.println("Lock request: unlock");
     servo_unlock();
     servo_unlock_request = false;
     lock_status = "UNLOCKED";
@@ -96,6 +100,7 @@ void loop() {
     digitalWrite(LOCK_LED_PIN,LOW);
   }
   if(servo_lock_request){
+    Serial.println("Lock request: lock");
     servo_lock();
     servo_lock_request = false;
     lock_status = "LOCKED";
@@ -103,23 +108,7 @@ void loop() {
     digitalWrite(LOCK_LED_PIN,HIGH);
     digitalWrite(UNLOCK_LED_PIN,LOW);
   }
+
   
-  // Limit switches management for lock state acknowledgement
-  /*
-  if(digitalRead(UNLOCK_SWITCH_PIN) == LOW && strcmp(lock_status,"UNLOCKED")!=0) {
-    lock_status = "UNLOCKED";
-    Serial.println("Unlocked limit switch hit");
-    MQTT_client.publish(MQTT_STATUS_TOPIC, MQTT_QOS, MQTT_RETAIN, lock_status);
-    digitalWrite(UNLOCK_LED_PIN,HIGH);
-    digitalWrite(LOCK_LED_PIN,LOW);
-  }
   
-  if(digitalRead(LOCK_SWITCH_PIN) == LOW && strcmp(lock_status,"LOCKED")!=0) {
-    lock_status = "LOCKED";
-    Serial.println("Locked limit switch hit");
-    MQTT_client.publish(MQTT_STATUS_TOPIC, MQTT_QOS, MQTT_RETAIN, lock_status);
-    digitalWrite(UNLOCK_LED_PIN,LOW);
-    digitalWrite(LOCK_LED_PIN,HIGH);
-  }
-  */
 }

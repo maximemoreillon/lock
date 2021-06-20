@@ -53,42 +53,45 @@ void MQTT_message_callback(char* topic, char* payload, AsyncMqttClientMessagePro
   Serial.print(topic);
   Serial.print("  payload: ");
   Serial.print(payload);
-  Serial.print("  qos: ");
-  Serial.print(properties.qos);
-  Serial.print("  dup: ");
-  Serial.print(properties.dup);
-  Serial.print("  retain: ");
-  Serial.print(properties.retain);
-  Serial.print("  len: ");
-  Serial.print(len);
-  Serial.print("  index: ");
-  Serial.print(index);
-  Serial.print("  total: ");
-  Serial.print(total);
   Serial.println("");
 
   if(strncmp(payload, "UNLOCKED", len) == 0){
-    Serial.println("Unlocking...");
-    servo_unlock_request = true;
+    
+    if (strcmp(lock_status,"UNLOCKED") != 0){
+      Serial.println("Unlocking according to MQTT command...");
+      servo_unlock_request = true;
+    }
+    else {
+      Serial.println("Already unlocked");
+    }
   }
   else if(strncmp(payload, "LOCKED",len) == 0){
-    Serial.println("Locking...");
-    servo_lock_request = true;
+    
+    if (strcmp(lock_status,"LOCKED") != 0){
+      Serial.println("Locking according to MQTT command... ");
+      servo_lock_request = true;
+    }
+    else {
+      Serial.println("Already locked");
+    }
+
   }
   else if(strncmp(payload, "TOGGLE", len) == 0){
     Serial.println("Toggling lock state");
-    
-    if(strcmp(lock_status,"UNLOCKED") == 0){
-      Serial.println("Locking...");
-      servo_lock_request = true;
-    }
-    else if (strcmp(lock_status,"LOCKED") == 0){
-      Serial.println("Unlocking...");
+
+    if (strcmp(lock_status,"LOCKED") == 0){
+      Serial.println("Unlocking according to MQTT TOGGLE command...");
       servo_unlock_request = true;
     }
+    else {
+      Serial.println("Locking according to MQTT TOGGLE command...");
+      servo_lock_request = true;
+    }
+    
   }
 }
 
 void MQTT_publish_callback(uint16_t packetId) {
-  Serial.println("MQTT publish");
+  Serial.print("MQTT publish: ");
+  Serial.println(lock_status);
 }
