@@ -1,6 +1,6 @@
 # lock
 
-Wifi enabled door lock that can be controlled via either MQTT or HTTP requests.
+Wifi enabled door lock that can be controlled via either MQTT messages or HTTP requests.
 
 Project page: https://cms.maximemoreillon.com/articles/237
 
