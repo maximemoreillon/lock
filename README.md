@@ -2,6 +2,8 @@
 
 Wifi enabled door lock that can be controlled via either MQTT or HTTP requests.
 
+Project page: https://cms.maximemoreillon.com/articles/237
+
 ## Video:
 [![Alt text](https://img.youtube.com/vi/oReezruJR1E/0.jpg)](https://www.youtube.com/watch?v=oReezruJR1E)
 
@@ -23,5 +25,3 @@ Wifi enabled door lock that can be controlled via either MQTT or HTTP requests.
 
 ### 3D printed parts
 STL files available on [Thingiverse](https://www.thingiverse.com/thing:2462482)
-
-
