@@ -1,97 +1,65 @@
-void MQTT_setup(){
+void MQTT_config(){
+  iot_kernel.mqtt.setCallback(mqtt_message_callback);
 
-  // Callbacks
-  MQTT_client.onConnect(MQTT_connect_callback);
-  MQTT_client.onDisconnect(MQTT_disconnect_callback);
-  MQTT_client.onSubscribe(MQTT_subscribe_callback);
-  MQTT_client.onUnsubscribe(MQTT_unsubscribe_callback);
-  MQTT_client.onMessage(MQTT_message_callback);
-  MQTT_client.onPublish(MQTT_publish_callback);
-
-  // Settings
-  MQTT_client.setServer(MQTT_BROKER_ADDRESS, MQTT_PORT);
-  MQTT_client.setCredentials(MQTT_USERNAME, MQTT_PASSWORD);
+  //iot_kernel.mqtt_status_topic = MQTT_STATUS_TOPIC;
+  //iot_kernel.mqtt_command_topic = MQTT_COMMAND_TOPIC;
 }
 
-void MQTT_connect() {
-  Serial.println("MQTT connecting...");
 
-  MQTT_reconnect_timer.detach();
-  MQTT_client.connect();
-}
+void mqtt_message_callback(char* topic, byte* payload, unsigned int payload_length) {
 
-void MQTT_connect_callback(bool sessionPresent) {
-  Serial.println("MQTT connected");
-
-  // Subscribing to command topics
-  uint16_t packetIdSub = MQTT_client.subscribe(MQTT_COMMAND_TOPIC, MQTT_QOS);
-
-  // Publish current state
-  MQTT_client.publish(MQTT_STATUS_TOPIC, MQTT_QOS, MQTT_RETAIN, lock_status);
-}
-
-void MQTT_disconnect_callback(AsyncMqttClientDisconnectReason reason) {
-  Serial.println("MQTT disconnected");
-
-  if (WiFi.isConnected()) {
-    MQTT_reconnect_timer.attach(2, MQTT_connect);
-  }
-}
-
-void MQTT_subscribe_callback(uint16_t packetId, uint8_t qos) {
-  Serial.println("MQTT subscribed");
-}
-
-void MQTT_unsubscribe_callback(uint16_t packetId) {
-  Serial.println("MQTT unsubscribed");
-}
-
-void MQTT_message_callback(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
-
-  Serial.print("MQTTT message received: ");
-  Serial.print("  topic: ");
+  Serial.print("[MQTT] message received on ");
   Serial.print(topic);
-  Serial.print("  payload: ");
-  Serial.print(payload);
+  Serial.print(", payload: ");
+  for (int i = 0; i < payload_length; i++) Serial.print((char)payload[i]);
   Serial.println("");
 
-  if(strncmp(payload, "UNLOCKED", len) == 0){
-    
-    if (strcmp(lock_status,"UNLOCKED") != 0){
-      Serial.println("Unlocking according to MQTT command...");
-      servo_unlock_request = true;
+  // Create a JSON object to hold the message
+  // Note: size is limited by MQTT library
+  StaticJsonDocument<MQTT_MAX_PACKET_SIZE> inbound_JSON_message;
+
+  // Copy the message into the JSON object
+  deserializeJson(inbound_JSON_message, payload);
+
+  if(inbound_JSON_message.containsKey("state")){
+
+    Serial.println("[MQTTT] Payload is JSON with state");
+
+    // Check what the command is and act accordingly
+    // Use strdup so as to use strlwr later on
+    char* command = strdup(inbound_JSON_message["state"]);
+
+    if( strcmp(strlwr(command), "locked") == 0 ) {
+      if(iot_kernel.device_state != "locked") {
+        servo_lock_request = true;
+        Serial.println("Locking");
+      }
+      else {
+        Serial.println("Already locked");
+      }
     }
-    else {
-      Serial.println("Already unlocked");
+    else if( strcmp(strlwr(command), "unlocked") == 0 ) {
+      if(iot_kernel.device_state != "unlocked") {
+        servo_unlock_request = true;
+        Serial.println("Unlocking");
+      }
+      else {
+        Serial.println("Already unlocked");
+      }
     }
-  }
-  else if(strncmp(payload, "LOCKED",len) == 0){
-    
-    if (strcmp(lock_status,"LOCKED") != 0){
-      Serial.println("Locking according to MQTT command... ");
-      servo_lock_request = true;
-    }
-    else {
-      Serial.println("Already locked");
+    else if( strcmp(strlwr(command), "toggle") == 0 ) {
+      if(iot_kernel.device_state == "locked") {
+        servo_unlock_request = true;
+      }
+      else if(iot_kernel.device_state == "unlocked") {
+        servo_lock_request = true;
+      }
     }
 
-  }
-  else if(strncmp(payload, "TOGGLE", len) == 0){
-    Serial.println("Toggling lock state");
+    free(command);
 
-    if (strcmp(lock_status,"LOCKED") == 0){
-      Serial.println("Unlocking according to MQTT TOGGLE command...");
-      servo_unlock_request = true;
-    }
-    else {
-      Serial.println("Locking according to MQTT TOGGLE command...");
-      servo_lock_request = true;
-    }
-    
-  }
-}
 
-void MQTT_publish_callback(uint16_t packetId) {
-  Serial.print("MQTT publish: ");
-  Serial.println(lock_status);
+  }
+
+
 }
