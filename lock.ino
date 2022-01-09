@@ -15,7 +15,7 @@
 
 // IoT Kernel params
 #define DEVICE_TYPE "lock"
-#define DEVICE_FIRMWARE_VERSION "0.1.8"
+#define DEVICE_FIRMWARE_VERSION "0.2.6"
 
 // Pin mapping
 #define SERVO_PIN D2
@@ -24,10 +24,11 @@
 #define BUTTON_PIN D6 // D6
 
 // Servo
-#define SERVO_UNLOCK_ANGLE 160
+#define SERVO_UNLOCK_ANGLE 140
 #define SERVO_NEUTRAL_ANGLE 90
-#define SERVO_LOCK_ANGLE 0
-#define SERVO_DELAY 6
+#define SERVO_LOCK_ANGLE 20
+//#define SERVO_DELAY 1
+#define SERVO_INCREMENT 2
 
 // MQTT
 #define MQTT_COMMAND_TOPIC "lock/command"

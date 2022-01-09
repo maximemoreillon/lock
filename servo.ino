@@ -4,29 +4,34 @@ void servo_setup(){
 }
 
 void servo_lock(){
-    for(int angle = SERVO_NEUTRAL_ANGLE; angle >SERVO_LOCK_ANGLE; angle --){
+  Serial.println("[Servo] locking started");
+  for(int angle = SERVO_NEUTRAL_ANGLE; angle >= SERVO_LOCK_ANGLE; angle -= SERVO_INCREMENT){
     servo.write(angle);
-    delay(SERVO_DELAY);
+    //delay(SERVO_DELAY);
   }
 
-  for(int angle = SERVO_LOCK_ANGLE; angle <=SERVO_NEUTRAL_ANGLE; angle ++){
+  for(int angle = SERVO_LOCK_ANGLE; angle <=SERVO_NEUTRAL_ANGLE; angle += SERVO_INCREMENT){
     servo.write(angle);
-    delay(SERVO_DELAY);
+    //delay(SERVO_DELAY);
   }
+  Serial.println("[Servo] locking finished");
 
   servo_lock_request = false;
 }
 
 void servo_unlock(){
-  for(int angle = SERVO_NEUTRAL_ANGLE; angle <SERVO_UNLOCK_ANGLE; angle ++){
+  Serial.println("[Servo] unlocking started");
+  for(int angle = SERVO_NEUTRAL_ANGLE; angle <= SERVO_UNLOCK_ANGLE; angle += SERVO_INCREMENT){
     servo.write(angle);
-    delay(SERVO_DELAY);
+    //delay(SERVO_DELAY);
   }
 
-  for(int angle = SERVO_UNLOCK_ANGLE; angle >=SERVO_NEUTRAL_ANGLE; angle --){
+  for(int angle = SERVO_UNLOCK_ANGLE; angle >=SERVO_NEUTRAL_ANGLE; angle -= SERVO_INCREMENT){
     servo.write(angle);
-    delay(SERVO_DELAY);
+    //delay(SERVO_DELAY);
   }
+
+  Serial.println("[Servo] unlocking finished");
 
   servo_unlock_request = false;
 }
