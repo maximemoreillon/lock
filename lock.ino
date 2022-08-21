@@ -15,7 +15,7 @@
 
 // IoT Kernel params
 #define DEVICE_TYPE "lock"
-#define DEVICE_FIRMWARE_VERSION "0.2.6"
+#define DEVICE_FIRMWARE_VERSION "0.2.7"
 
 // Pin mapping
 #define SERVO_PIN D2
@@ -43,9 +43,6 @@ char* lock_status = "UNKNOWN";
 
 void setup() {
 
-  
-
-
   // IO init
   pinMode(UNLOCK_LED_PIN,OUTPUT);
   pinMode(LOCK_LED_PIN,OUTPUT);
@@ -55,7 +52,7 @@ void setup() {
   
   iot_kernel.init();
   MQTT_config();
-  
+  web_server_config();
 
 }
 
@@ -66,6 +63,4 @@ void loop() {
   button_read();
   handle_servo();
 
-  
-  
 }

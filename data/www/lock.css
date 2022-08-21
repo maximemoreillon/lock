@@ -1,0 +1,54 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #444444;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+input[type="submit"] {
+    color: white;
+    font-size: 10vmin;
+    text-decoration: none;
+    padding: 0.5em 1em;
+    border: 2px solid white;
+    border-radius: 0.5em;
+    background-color: transparent;
+}
+
+.cylinder {
+    border-radius: 50vmin;
+    border: 2px solid white;
+    height: 50vmin;
+    width: 50vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.keyhole {
+    border: 2px solid white;
+    height: 5vmin;
+    width: 40vmin;
+    animation-name: rotate;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+.reverse {
+    animation-direction: reverse;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+
+
+    100% {
+        transform: rotate(90deg);
+    }
+}
