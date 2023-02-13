@@ -11,8 +11,6 @@
 #include <Servo.h>
 
 
-
-
 // IoT Kernel params
 #define DEVICE_TYPE "lock"
 #define DEVICE_FIRMWARE_VERSION "0.2.7"
