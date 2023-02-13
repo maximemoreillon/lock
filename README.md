@@ -25,6 +25,3 @@ Project page: https://cms.maximemoreillon.com/articles/237
 
 ### 3D printed parts
 STL files available on [Thingiverse](https://www.thingiverse.com/thing:2462482)
-
-## Notes
-* For applications without limit switches, please see the no_limit_switches branch of this repository.
