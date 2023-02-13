@@ -21,7 +21,7 @@ Project page: https://cms.maximemoreillon.com/articles/237
 * Screws and standoffs
 
 ### Schematic
-![alt text](http://maximemoreillon.com/images/projects/iot/lock/lock_schematic.png)
+![alt text](https://img.maximemoreillon.com/images/609493e243b2829ef4abca38)
 
 ### 3D printed parts
 STL files available on [Thingiverse](https://www.thingiverse.com/thing:2462482)
