@@ -1,8 +1,5 @@
 void MQTT_config(){
   iot_kernel.mqtt.setCallback(mqtt_message_callback);
-
-  iot_kernel.mqtt_status_topic = MQTT_STATUS_TOPIC;
-  iot_kernel.mqtt_command_topic = MQTT_COMMAND_TOPIC;
 }
 
 

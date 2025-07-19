@@ -13,7 +13,7 @@
 
 // IoT Kernel params
 #define DEVICE_TYPE "lock"
-#define DEVICE_FIRMWARE_VERSION "0.2.7"
+#define DEVICE_FIRMWARE_VERSION "0.3.0"
 
 // Pin mapping
 #define SERVO_PIN D2
@@ -22,22 +22,17 @@
 #define BUTTON_PIN D6 // D6
 
 // Servo
-#define SERVO_UNLOCK_ANGLE 140
+#define SERVO_UNLOCK_ANGLE 160
 #define SERVO_NEUTRAL_ANGLE 90
-#define SERVO_LOCK_ANGLE 20
+#define SERVO_LOCK_ANGLE 10
 //#define SERVO_DELAY 1
 #define SERVO_INCREMENT 2
-
-// MQTT
-#define MQTT_COMMAND_TOPIC "lock/command"
-#define MQTT_STATUS_TOPIC "lock/status"
 
 
 
 IotKernel iot_kernel(DEVICE_TYPE,DEVICE_FIRMWARE_VERSION); 
 Servo servo;
 boolean servo_unlock_request, servo_lock_request;
-char* lock_status = "UNKNOWN";
 
 void setup() {
 
