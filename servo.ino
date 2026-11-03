@@ -41,8 +41,8 @@ void handle_servo(){
     Serial.println("Lock request: unlock");
     servo_unlock();
     
-    iot_kernel.device_state = "unlocked";
-    iot_kernel.mqtt_publish_state();
+    lock_state = "unlocked";
+    publish_lock_state();
     digitalWrite(UNLOCK_LED_PIN,HIGH);
     digitalWrite(LOCK_LED_PIN,LOW);
   }
@@ -50,8 +50,8 @@ void handle_servo(){
     Serial.println("Lock request: lock");
     servo_lock();
     
-    iot_kernel.device_state = "locked";
-    iot_kernel.mqtt_publish_state();
+    lock_state = "locked";
+    publish_lock_state();
     digitalWrite(LOCK_LED_PIN,HIGH);
     digitalWrite(UNLOCK_LED_PIN,LOW);
   }

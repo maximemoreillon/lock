@@ -7,7 +7,7 @@ void web_server_config() {
 
 void handle_lock_form(AsyncWebServerRequest *request) {
 
-  if(iot_kernel.device_state == "unlocked"){
+  if(lock_state == "unlocked"){
     request->send(LittleFS, "/www/lock.html", String(), false);
   }
   else {

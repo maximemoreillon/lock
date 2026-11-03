@@ -13,7 +13,7 @@
 
 // IoT Kernel params
 #define DEVICE_TYPE "lock"
-#define DEVICE_FIRMWARE_VERSION "0.3.0"
+#define DEVICE_FIRMWARE_VERSION "0.4.0"
 
 // Pin mapping
 #define SERVO_PIN D2
@@ -33,6 +33,7 @@
 IotKernel iot_kernel(DEVICE_TYPE,DEVICE_FIRMWARE_VERSION); 
 Servo servo;
 boolean servo_unlock_request, servo_lock_request;
+String lock_state = "unknown"; // "locked", "unlocked", or "unknown" until the first move
 
 void setup() {
 

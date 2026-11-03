@@ -28,10 +28,10 @@ void button_read(){
   if(readButtonDebounce(BUTTON_PIN)){
     Serial.println("[IO] Button pressed, toggling lock state");
     
-    if(iot_kernel.device_state == "locked") {
+    if(lock_state == "locked") {
       servo_unlock_request = true;
     }
-    else if(iot_kernel.device_state == "unlocked") {
+    else if(lock_state == "unlocked") {
       servo_lock_request = true;
     }
   }
